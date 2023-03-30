@@ -13,7 +13,7 @@
 ### Andamento do projeto
 
 - [x] Criar o projeto
-- [ ] Instalar o breeze
+- [x] Instalar o breeze
 - [ ] Criar a tela de login
 - [ ] Criar a tela de cadastro
 - [ ] Criar os testes de login
