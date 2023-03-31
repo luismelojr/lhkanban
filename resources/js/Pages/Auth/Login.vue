@@ -1,11 +1,12 @@
 <script setup>
-import Checkbox from '@/Components/Checkbox.vue';
 import GuestLayout from '@/Layouts/GuestLayout.vue';
 import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
-import { Head, Link, useForm } from '@inertiajs/vue3';
+import {Head, useForm} from '@inertiajs/vue3';
+import TextLabel from "@/Components/Inputs/TextLabel.vue";
+import TextField from "@/Components/Inputs/TextField.vue";
+import NavLink from "@/Components/Navigation/NavLink.vue";
+import TextFieldPassword from "@/Components/Inputs/TextFieldPassword.vue";
+import LoadButton from "@/Components/Inputs/LoadButton.vue";
 
 defineProps({
     canResetPassword: {
@@ -33,62 +34,28 @@ const submit = () => {
     <GuestLayout>
         <Head title="Log in" />
 
-        <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
-            {{ status }}
+        <div>
+            <h1 class="font-titillium text-4xl font-bold">Acesse a plataforma</h1>
+            <p class="mt-[1rem] text-[1rem] text-gray-600 font-titillium">Faça login ou registre-se para começar a construir seus projetos ainda hoje.</p>
         </div>
-
-        <form @submit.prevent="submit">
+        <form class="mt-[2.5rem]" @submit.prevent="submit">
             <div>
-                <InputLabel for="email" value="Email" />
-
-                <TextInput
-                    id="email"
-                    type="email"
-                    class="mt-1 block w-full"
-                    v-model="form.email"
-                    required
-                    autofocus
-                    autocomplete="username"
-                />
-
-                <InputError class="mt-2" :message="form.errors.email" />
+                <TextLabel value="E-mail" />
+                <TextField type="email" v-model="form.email" class="w-full" placeholder="Digite seu e-mail" :errors="form.errors.email"/>
+                <InputError :message="form.errors.email" class="mt-2" />
             </div>
-
-            <div class="mt-4">
-                <InputLabel for="password" value="Password" />
-
-                <TextInput
-                    id="password"
-                    type="password"
-                    class="mt-1 block w-full"
-                    v-model="form.password"
-                    required
-                    autocomplete="current-password"
-                />
-
-                <InputError class="mt-2" :message="form.errors.password" />
+            <div class="mt-[1rem]">
+                <div class="flex items-center justify-between">
+                    <TextLabel value="Senha" />
+                    <NavLink href="/">Esqueceu a senha?</NavLink>
+                </div>
+                <TextFieldPassword v-model="form.password" class="w-full" placeholder="Digite sua senha" :errors="form.errors.password"/>
+                <InputError :message="form.errors.password" class="mt-2" />
             </div>
-
-            <div class="block mt-4">
-                <label class="flex items-center">
-                    <Checkbox name="remember" v-model:checked="form.remember" />
-                    <span class="ml-2 text-sm text-gray-600">Remember me</span>
-                </label>
-            </div>
-
-            <div class="flex items-center justify-end mt-4">
-                <Link
-                    v-if="canResetPassword"
-                    :href="route('password.request')"
-                    class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                >
-                    Forgot your password?
-                </Link>
-
-                <PrimaryButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Log in
-                </PrimaryButton>
-            </div>
+            <LoadButton type="submit" class="mt-[2rem] w-full" :loading="form.processing">Entrar</LoadButton>
         </form>
+        <div class="mt-8">
+            <p class="text-gray-600 text-[0.875rem]">Ainda não tem uma conta? <NavLink :href="route('register')">Inscreva-se</NavLink></p>
+        </div>
     </GuestLayout>
 </template>
